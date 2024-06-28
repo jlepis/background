@@ -1,11 +1,3 @@
-
-
-// headshot.png = https://imagedelivery.net/qce_E24q1nd01LtdzDOvJA/7cc86372-5853-4028-e09a-44484ffe4600/public  
-// splash.png = https://imagedelivery.net/qce_E24q1nd01LtdzDOvJA/165d60a9-38b0-4a86-6b07-b4aa29b7c000/public 
-// image1.jpg = https://imagedelivery.net/qce_E24q1nd01LtdzDOvJA/22603289-b04e-41b1-f86d-487c7a50ad00/public
-// image2.jpg = https://imagedelivery.net/qce_E24q1nd01LtdzDOvJA/48499236-103f-430e-4014-8bfc525ccc00/public
-// image3.jpg = https://imagedelivery.net/qce_E24q1nd01LtdzDOvJA/8a4b00bb-de23-445f-38fb-9f62ef7adf00/public
-
 const BACKGROUND_IMAGE_IDS = [
 	'22603289-b04e-41b1-f86d-487c7a50ad00',
 	'48499236-103f-430e-4014-8bfc525ccc00',
@@ -20,7 +12,7 @@ export default {
 	async fetch(request, env, ctx) {
 	  try {
       const CLOUDFLARE_ACCOUNT_HASH = env.IMAGE_ACCOUNT_HASH;   
-      const jekyllUrl = env.JEKYLL_URL || "https://joseph-c-lepis.com"
+      const jekyllUrl = env.JEKYLL_URL || "https://jlepis.github.io"
   
       const parsedUrl = new URL(request.url);
       console.log("url: ", parsedUrl.pathname)
@@ -47,8 +39,28 @@ export default {
         html = html.replace(/<img src="headshot\.png" id="avatar">/, `<img src="${avatarImageUrl}" id="avatar">`);
         
         // Insert the style tag with the random background image
-        const styleTag = `<style>body { background-image: url('${randomImageUrl}'); background-size: cover; }</style>`;
+        // const styleTag = `<style>body { background-image: url('${randomImageUrl}'); background-size: cover; }</style>`;
     
+        console.log(randomImageUrl);
+      const styleTag = `
+        <style>
+          body {
+            background-image: url('${randomImageUrl}');
+            background-size: cover;
+            position: relative;
+          }
+          body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* A value closer to 1 will make it darker, while a value closer to 0 will make it lighter.*/
+            z-index: -1;
+          }
+        </style>`;
+
         html = html.replace('</head>', `${styleTag}</head>`);
         
         // Return the modified HTML
