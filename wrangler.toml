@@ -23,7 +23,7 @@ JEKYLL_URL = "https://joseph-c-lepis.com"
 
 [env.staging.vars]
 JEKYLL_URL = "http://127.0.0.1:4000"
-
+# JEKYLL_URL = "http://localhost:8788"
 # wrangler dev --env staging
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#workers-ai
