@@ -39,29 +39,42 @@ export default {
         html = html.replace(/<img src="headshot\.png" id="avatar">/, `<img src="${avatarImageUrl}" id="avatar">`);
         
         // Insert the style tag with the random background image
-        // const styleTag = `<style>body { background-image: url('${randomImageUrl}'); background-size: cover; }</style>`;
-    
-        console.log(randomImageUrl);
-      const styleTag = `
-        <style>
-          body {
-            background-image: url('${randomImageUrl}');
-            background-size: cover;
-            position: relative;
-          }
-          body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.4); /* A value closer to 1 will make it darker, while a value closer to 0 will make it lighter.*/
-            z-index: -1;
-          }
-        </style>`;
+        const styleTag = `
+          <style>
+            body {
+              background-image: url('${randomImageUrl}');
+              background-size: cover;
+              position: relative;
+            }
+            body::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              background-color: rgba(0, 0, 0, 0.4); /* A value closer to 1 will make it darker, while a value closer to 0 will make it lighter.*/
+              z-index: -1;
+            }
+            .worker-link {
+              color: #F6821F; /* Cloudflare orange color */
+              text-decoration: none;
+              font-weight: 700;
+              margin-left: 1px;
+              padding-left: 3px;
+            }
+            .worker-link:hover {
+              text-decoration: underline;
+            }
+          </style>`;
 
         html = html.replace('</head>', `${styleTag}</head>`);
+
+        // Modify the footer text
+        html = html.replace(
+          /<p>Powered by <span class="cloudflare-logo">Cloudflare<\/span><\/p>/,
+          '<p>Powered by <span class="cloudflare-logo">Cloudflare</span><a class="worker-link" href="https://developers.cloudflare.com/workers/" target="_blank">[worker]</a></p>'
+        );
         
         // Return the modified HTML
         return new Response(html, {
